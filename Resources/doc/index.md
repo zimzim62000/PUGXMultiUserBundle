@@ -34,7 +34,7 @@ Add the following lines in your `deps` file:
 
 ```
 [PUGXMultiUserBundle]
-    git=git://github.com/netmeansnet/PUGXMultiUserBundle.git
+    git=git://github.com/PUGX/PUGXMultiUserBundle.git
     target=bundles/PUGX/MultiUserBundle
     version=origin/1.2
 ```
