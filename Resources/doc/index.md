@@ -15,7 +15,7 @@ This version was heavily modified to decouple the controllers.
 
 ## Prerequisites
 
-This version of the bundle requires Symfony 2.1
+This version of the bundle requires Symfony 2.1 and FOSUserBundle 1.3
 
 [FOSUserBundle] (https://github.com/FriendsOfSymfony/FOSUserBundle)
 
