@@ -9,8 +9,6 @@ It's just a lazy way to use for free most of the functionality of FOSUserBundle.
 This bundle has been realized as a part of a real application that uses doctrine orm,
 so for now it only supports the ORM db driver.
 
-!!! IMPORTANT: This version was heavily modified to decouple the controllers. !!!
-
 ## Prerequisites
 
 This version of the bundle requires Symfony 2.1
@@ -21,11 +19,11 @@ This version of the bundle requires Symfony 2.1
 
 1. Download PUGXMultiUserBundle
 2. Enable the Bundle
-3. Create your Entities
-4. Configure the FOSUserBundle (PUGXMultiUserBundle params)
-5. Configure parameters for UserDiscriminator
-6. Create your controllers
-
+3. Create your UserBundle
+4. Create your Entities
+5. Configure the FOSUserBundle (PUGXMultiUserBundle params)
+6. Configure parameters for UserDiscriminator
+7. Create your controllers
 
 ### 1. Download PUGXMultiUserBundle
 
@@ -36,7 +34,7 @@ Add the following lines in your composer.json:
 ```
 {
     "require": {
-        "pugx/multi-user-bundle": "1.4.x-dev"
+        "pugx/multi-user-bundle": "1.3.x-dev"
     }
 }
 
@@ -66,7 +64,26 @@ public function registerBundles()
 }
 ```
 
-### 3. Create your Entities
+### 3. Create your UserBundle
+
+Create a bundle that extends PUGXMultiUserBundle
+([How to use Bundle Inheritance to Override parts of a Bundle] (http://symfony.com/doc/current/cookbook/bundles/inheritance.html))
+
+``` php
+<?php
+namespace Acme\UserBundle;
+
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class AcmeUserBundle extends Bundle
+{
+    public function getParent()
+    {
+        return 'PUGXMultiUserBundle';
+    }
+}
+
+### 4. Create your Entities
 
 Create entities using Doctrine2 inheritance.
 
@@ -152,14 +169,14 @@ class UserTwo extends User
 You must also create forms for your entities:
 see [Overriding Default FOSUserBundle Forms] (https://github.com/FriendsOfSymfony/FOSUserBundle/blob/1.1.0/Resources/doc/overriding_forms.md)
 
-### 4. Configure the FOSUserBundle (PUGXMultiUserBundle params)
+### 5. Configure the FOSUserBundle (PUGXMultiUserBundle params)
 
 Keep in mind that PUGXMultiUserBundle overwrites user_class via UserDiscriminator
 but it does it only in controllers and forms handlers; in the other cases (command, sonata integration, etc)
 it still uses the user_class configured in the config.
 
 ``` yaml
-# Acme/app/Resources/config/config.yml
+# Acme/UserBundle/Resources/config/config.yml
 fos_user:
     db_driver: orm
     firewall_name: main
@@ -174,7 +191,7 @@ fos_user:
             handler: pugx_user_profile_form_handler
 ```
 
-### 5. Configure parameters for UserDiscriminator
+### 6. Configure parameters for UserDiscriminator
 
 ``` yaml
 # Acme/UserBundle/Resources/config/config.yml
@@ -218,82 +235,91 @@ parameters:
             factory:
 ```
 
-### 6. Create your controllers
+### 7. Create your controllers
+
+PUGX\MultiUserBundle\Controller\RegistrationController can handle registration flow only for
+the first user passed to discriminator, in this case user_one.
+To handle flow of user_two you must configure a route and add a controller in your bundle.
 
 Route configuration
 
 ``` yaml
 # Acme/UserBundle/Resources/config/routing.yml
 
-user_one_registration:
-    pattern:  /register/user-one
-    defaults: { _controller: AcmeUserBundle:RegistrationUserOne:register }
-
 user_two_registration:
     pattern:  /register/user-two
     defaults: { _controller: AcmeUserBundle:RegistrationUserTwo:register }
 ```
-
-You can disable the default route registration coming from FOSUser or you have to manage it for prevent incorrect registration
-
-Controller
-
-RegistrationUserOne
 
 ``` php
 <?php
 
 namespace Acme\UserBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use PUGX\MultiUserBundle\Controller\RegistrationController as BaseController;
 
-class RegistrationUserOne extends BaseController
+class RegistrationUserTwoController extends BaseController
 {
     public function registerAction()
     {
-        $handler = $this->container->get('pugx_multi_user.controller.handler');
-        $discriminator = $this->container->get('pugx_user_discriminator');
+        $discriminator = $this->container->get('nmn_user_discriminator');
+        $discriminator->setClass('Acme\UserBundle\Entity\UserTwo');
 
-        $return = $handler->registration('Acme\UserBundle\Entity\UserOne');
+        return parent::registerAction();
+    }
+}
+```
+
+**Custom view**
+
+```php
+<?php
+
+namespace Acme\UserBundle\Controller;
+
+use PUGX\MultiUserBundle\Controller\RegistrationController as BaseController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+class RegistrationUserTwoController extends BaseController
+{
+    public function registerAction()
+    {
+        $discriminator = $this->container->get('pugx_user_discriminator');
+        $discriminator->setClass('Acme\UserBundle\Entity\UserTwo');
         $form = $discriminator->getRegistrationForm();
+
+        $return = parent::registerAction();
 
         if ($return instanceof RedirectResponse) {
             return $return;
         }
 
-        return $this->container->get('templating')->renderResponse('AcmeUserBundle:Registration:user_one.form.html.twig', array(
+        return $this->container->get('templating')->renderResponse('AcmeUserBundle:Registration:user_two.form.html.'.$this->getEngine(), array(
             'form' => $form->createView(),
         ));
     }
 }
 ```
 
-RegistrationUserTwo
+**Customize all registrations**
 
-``` php
+You can also define a custom route for UserOne but in this case remember to override the
+RegistrationController and create the route and the controller for UserOne
+
+```php
 <?php
 
 namespace Acme\UserBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
+use NmnPUGX\MultiUserBundle\Controller\RegistrationController as BaseController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class RegistrationUserTwo extends BaseController
+class RegistrationController extends BaseController
 {
     public function registerAction()
     {
-        $handler = $this->container->get('pugx_multi_user.controller.handler');
-        $discriminator = $this->container->get('pugx_user_discriminator');
-
-        $return = $handler->registration('Acme\UserBundle\Entity\UserTwo');
-        $form = $discriminator->getRegistrationForm();
-
-        if ($return instanceof RedirectResponse) {
-            return $return;
-        }
-
-        return $this->container->get('templating')->renderResponse('AcmeUserBundle:Registration:user_two.form.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        $url = $this->container->get('router')->generate('home');
+        return new RedirectResponse($url);
     }
 }
 ```
