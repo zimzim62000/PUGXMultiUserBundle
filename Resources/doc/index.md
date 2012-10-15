@@ -222,10 +222,6 @@ parameters:
 
 ### 6. Create your controllers
 
-PUGX\MultiUserBundle\Controller\RegistrationController can handle registration flow only for
-the first user passed to discriminator, in this case user_one.
-To handle flow of user_two you must configure a route and add a controller in your bundle.
-
 Route configuration
 
 ``` yaml
