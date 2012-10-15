@@ -72,7 +72,7 @@ public function registerBundles()
 
 Create entities using Doctrine2 inheritance.
 
-Abstract User that directly extends from FOS\UserBundle\Entity\User
+Abstract User that directly extends FOS\UserBundle\Entity\User
 
 ``` php
 <?php
