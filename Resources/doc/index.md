@@ -11,7 +11,7 @@ so for now it only supports the ORM db driver.
 
 !!! IMPORTANT !!!
 =================
-This version was heavily modified to decouple the controllers. !!!
+This version was heavily modified to decouple the controllers.
 
 ## Prerequisites
 
