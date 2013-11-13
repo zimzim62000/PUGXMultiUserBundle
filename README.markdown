@@ -4,19 +4,8 @@ PUGXMultiUserBundle
 The PUGXMultiUserBundle extends FOSUserBundle adding the feature to handle users of different types.
 For now only supports the ORM db driver and is based on the doctrine2 inheritance.
 
-This branch (2.0) supports FOSUserBundle 2.0 and Symfony 2.1.
+This branch (2.0) supports FOSUserBundle 2.0 and Symfony >=2.1, <2.4
 [![Build Status](https://secure.travis-ci.org/PUGX/PUGXMultiUserBundle.png?branch=2.0)](http://travis-ci.org/PUGX/PUGXMultiUserBundle)
-
-The branch (1.4) supports FOSUserBundle 1.3 and Symfony 2.1 with new approach
-[![Build Status](https://secure.travis-ci.org/PUGX/PUGXMultiUserBundle.png?branch=1.4)](http://travis-ci.org/PUGX/PUGXMultiUserBundle)
-
-For the old implementation see:
-
-The branch (1.3) supports FOSUserBundle 1.3 and Symfony 2.1 
-[![Build Status](https://secure.travis-ci.org/PUGX/PUGXMultiUserBundle.png?branch=1.3)](http://travis-ci.org/PUGX/PUGXMultiUserBundle)
-
-The branch (1.2) supports FOSUserBundle 1.2 and Symfony 2.0
-[![Build Status](https://secure.travis-ci.org/PUGX/PUGXMultiUserBundle.png?branch=1.2)](http://travis-ci.org/PUGX/PUGXMultiUserBundle)
 
 Total Downloads [![Total Downloads](http://poser.pagodabox.com/pugx/multi-user-bundle/d/total.png)](https://packagist.org/packages/pugx/multi-user-bundle)
 
@@ -24,12 +13,12 @@ Total Downloads [![Total Downloads](http://poser.pagodabox.com/pugx/multi-user-b
 Documentation
 -------------
 
-[Read the Documentation](https://github.com/PUGX/PUGXMultiUserBundle/blob/master/Resources/doc/index.md)
+[Read the Documentation](https://github.com/PUGX/PUGXMultiUserBundle/blob/2.0/Resources/doc/index.md)
 
 Installation
 ------------
 
-All the installation instructions are located in [documentation](https://github.com/PUGX/PUGXMultiUserBundle/blob/master/Resources/doc/index.md).
+All the installation instructions are located in [documentation](https://github.com/PUGX/PUGXMultiUserBundle/blob/2.0/Resources/doc/index.md).
 
 License
 -------

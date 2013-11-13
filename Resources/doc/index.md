@@ -28,7 +28,7 @@ This version of the bundle requires Symfony dev-master and FOSUserBundle dev-mas
 4. Configure the FOSUserBundle (PUGXMultiUserBundle params)
 5. Configure parameters for UserDiscriminator
 6. Create your controllers
-
+7. Using the User Manager
 
 ### 1. Download PUGXMultiUserBundle
 
@@ -277,7 +277,7 @@ class RegistrationUserTwo extends BaseController
 For now only registration and profile form factories are wrapped; 
 if you need creat a custom FormType you have to inject the discriminator.
 
-### Using the User Manager
+### 7. Using the User Manager
 
 Creating a new UserOne:
 
