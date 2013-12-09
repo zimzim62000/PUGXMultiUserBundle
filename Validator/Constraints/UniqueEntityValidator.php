@@ -3,6 +3,7 @@
 namespace PUGX\MultiUserBundle\Validator\Constraints;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
@@ -113,6 +114,11 @@ class UniqueEntityValidator extends BaseValidator
         }
 
         $errorPath = null !== $constraint->errorPath ? $constraint->errorPath : $fields[0];
-        $this->context->addViolationAtSubPath($errorPath, $constraint->message, array(), $criteria[$fields[0]]);
+
+        if (Kernel::MINOR_VERSION > 2) {
+            $this->context->addViolationAt($errorPath, $constraint->message, array(), $criteria[$fields[0]]);
+        } else {
+            $this->context->addViolationAtSubPath($errorPath, $constraint->message, array(), $criteria[$fields[0]]);
+        }
     }
 }

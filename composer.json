@@ -15,10 +15,9 @@
             "homepage": "https://github.com/PUGX/PUGXMultiUserBundle/contributors"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "symfony/framework-bundle": ">=2.1, <2.4",
-        "friendsofsymfony/user-bundle": "2.0.x-dev"
+        "friendsofsymfony/user-bundle": "2.0.x-dev@dev"
     },
     "suggest": {
     },
