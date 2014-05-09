@@ -1,18 +1,18 @@
 {
     "name": "zimzim62000/multi-user-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony PUGXMultiUserBundle",
+    "description": "Symfony zimzim62000 MultiUserBundle",
     "keywords": ["user management multi user management"],
-    "homepage": "https://github.com/PUGX",
+    "homepage": "https://github.com/zimzim62000",
     "license": "MIT",
     "authors": [
         {
-            "name": "Leonardo Proietti",
-            "email": "leonardo.proietti@gmail.com"
+            "name": "Zimmermann Fabien",
+            "email": "zimzim62000@gmail.com"
         },
         {
             "name": "Community",
-            "homepage": "https://github.com/PUGX/PUGXMultiUserBundle/contributors"
+            "homepage": "https://github.com/zimzim62000"
         }
     ],
     "require": {
@@ -23,9 +23,9 @@
     "suggest": {
     },
     "autoload": {
-        "psr-0": { "PUGX\\MultiUserBundle": "" }
+        "psr-0": { "ZIMZIM\\MultiUserBundle": "" }
     },
-    "target-dir": "PUGX/MultiUserBundle",
+    "target-dir": "ZIMZIM/MultiUserBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "3.0.x-dev"
