@@ -58,9 +58,8 @@ class FormFactory implements FactoryInterface
             return $this->forms[$name];
         }
             
-        $form = $this->formFactory->createNamed(
-                $name, 
-                $type, 
+        $form = $this->formFactory->create(
+                $name,
                 null, 
                 array('validation_groups' => $validationGroups));
         
