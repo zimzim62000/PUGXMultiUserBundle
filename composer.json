@@ -1,5 +1,5 @@
 {
-    "name": "pugx/multi-user-bundle",
+    "name": "zimzim62000/multi-user-bundle",
     "type": "symfony-bundle",
     "description": "Symfony PUGXMultiUserBundle",
     "keywords": ["user management multi user management"],
