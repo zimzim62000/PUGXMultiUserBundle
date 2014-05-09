@@ -152,9 +152,9 @@ class UserDiscriminator
             throw new \InvalidArgumentException(sprintf('UserDiscriminator, error getting form type : "%s" not found', $className));
         }
 
-        $type = new $className($class);
+        //$type = new $className($class);
         
-        return $type;
+        return $className;
     }
     
     /**
