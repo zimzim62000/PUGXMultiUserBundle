@@ -76,4 +76,52 @@ class RegistrationManager
             'form' => $form->createView(),
         ));
     }
+    
+        /**
+     *
+     * @param string $class
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function update($id)
+    {
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+
+        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+        $dispatcher = $this->container->get('event_dispatcher');
+
+        $em = $this->container->get('doctrine')->getManager();
+
+        $user = $em->getRepository('CentaureBundlesUserBundle:User')->find($id);
+        $role1 = $user->getRoles();
+
+        $discriminator = $this->container->get('pugx_user.manager.user_discriminator');
+        $discriminator->setClass(get_class($user));
+        $userManager = $this->container->get('pugx_user_manager');
+
+        $form = $this->container
+            ->get('pugx_multi_user.profile_form_factory')->createForm();
+        $form->setData($user);
+
+        if ('POST' === $request->getMethod()) {
+
+            $form->handleRequest($request);
+
+            if($form->isValid()){
+
+                $userManager->updateUser($user);
+
+                $this->container->get('session')->getFlashBag()->add('success', 'flashbag.success.update');
+
+                $role2 = $user->getRoles();
+
+                $event = new UpdateUserEvent(array($role1, $role2), $user);
+                $dispatcher->dispatch('centaure_user_user.event.update_user', $event);
+
+                return new RedirectResponse($this->container->get('router')->generate('centaure_user_user'));
+            }
+        }
+
+        return $this->container->get('templating')->renderResponse('CentaureBundlesUserBundle:Developer:register.html.twig', array('form' => $form->createView()));
+    }
+    
 }
