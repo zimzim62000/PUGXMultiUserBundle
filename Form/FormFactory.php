@@ -53,7 +53,7 @@ class FormFactory implements FactoryInterface
         $type = $this->userDiscriminator->getFormType($this->type);
         $name = $this->userDiscriminator->getFormName($this->type);
         $validationGroups = $this->userDiscriminator->getFormValidationGroups($this->type);
-        
+
         if (array_key_exists($name, $this->forms)) {
             return $this->forms[$name];
         }
