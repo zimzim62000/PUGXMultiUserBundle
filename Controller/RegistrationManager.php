@@ -39,6 +39,8 @@ class RegistrationManager
      *
      * @param \PUGX\MultiUserBundle\Model\UserDiscriminator $userDiscriminator
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \FOS\UserBundle\Controller\RegistrationController $controller
+     * @param \PUGX\MultiUserBundle\Form\FormFactory $formFactory
      */
     public function __construct(
         UserDiscriminator $userDiscriminator,
@@ -69,8 +71,7 @@ class RegistrationManager
 
         $template = $this->userDiscriminator->getTemplate('registration');
         if (is_null($template)) {
-            $engine = $this->container->getParameter('fos_user.template.engine');
-            $template = 'FOSUserBundle:Registration:register.html.' . $engine;
+            $template = 'FOSUserBundle:Registration:register.html.twig';
         }
 
         $form = $this->formFactory->createForm();
